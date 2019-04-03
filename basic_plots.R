@@ -19,8 +19,11 @@ ggplot(patchy) +
   geom_segment(aes(x=Fr_diff, y=Str, xend=Fr_dir, yend=Str), linetype=3) +
   geom_text(aes(x=Fr_dir, y=Str, label=consumer_resource_pair), hjust=-0.1, size=3) +
   geom_vline(xintercept=1) + geom_hline(yintercept=1) +
-  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-7, 10^11)) + 
-  scale_y_log10(breaks=Str_breaks)
+  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-7, 10^11),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) + 
+  scale_y_log10(breaks=Str_breaks,
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))
+ggsave("graphics/Fr-Str.png")
 
 ggplot(patchy) +
   geom_point(aes(x=Fr_dir, y=Le)) + 
@@ -28,14 +31,21 @@ ggplot(patchy) +
   geom_segment(aes(x=Fr_diff, y=Le, xend=Fr_dir, yend=Le), linetype=3) +
   geom_text(aes(x=Fr_dir, y=Le, label=consumer_resource_pair), hjust=-0.1, size=3) +
   geom_vline(xintercept=1) + geom_hline(yintercept=1) +
-  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-7, 10^13)) +
-  scale_y_log10(breaks=Le_breaks)
+  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-7, 10^13), 
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_y_log10(breaks=Le_breaks,
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))
+ggsave("graphics/Fr-Le.png")
 
 ggplot(patchy) +
   geom_point(aes(x=Str, y=Le)) + 
   geom_text(aes(x=Str, y=Le, label=consumer_resource_pair), hjust=-0.1, size=3) +
   geom_vline(xintercept=1) + geom_hline(yintercept=1) +
-  scale_x_log10(breaks=Str_breaks) + scale_y_log10(breaks=Le_breaks)
+  scale_x_log10(breaks=Str_breaks, limits=c(10^-6, 10^6),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_y_log10(breaks=Le_breaks,
+                labels = scales::trans_format("log10", scales::math_format(10^.x)))
+ggsave("graphics/Str-Le.png")
 
 
 with(patchy, plot3d(log10(Fr_dir), log10(Str), log10(Le), type="h"))
