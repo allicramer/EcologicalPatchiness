@@ -33,10 +33,10 @@ module OrganismUnits
     end
 end
 # using Main.OrganismUnits
-string(unit(3.2u"elk/yr"))
+string(unit(3.2 * u"elk/yr"))
 
 
-# helper function to
+# helper function to parse units straight from a string
 function parseunits(u::AbstractString)
     @eval @u_str($u)
 end
@@ -49,7 +49,8 @@ meta_vars = [:timestamp, :contributor, :consumer_resource_pair, :genus,
 consolidated = raw[meta_vars]
 
 measurements = [:speed, :turning_interval, :generation_time, :consumption_rate,
-    :mortality_rate, :consumer_body_size, :patch_duration, :patch_length_scale,
+    :mortality_rate, :consumer_body_size, :consumer_body_mass,
+    :patch_duration, :patch_length_scale, :resource_body_size, :resource_body_mass,
     :resource_density, :consumer_density, :tsearch, :tconsumption]
 
 for meas in measurements
@@ -65,7 +66,11 @@ consolidated = @transform(consolidated,
     tsearch_dir = uconvert.(u"s", coalesce.(:tsearch, :patch_length_scale ./ :speed)),
     treprod = uconvert.(u"s", :generation_time),
     tconsumption = uconvert.(u"s",
-        coalesce.(:tconsumption, :resource_density ./ (:consumer_density .* :consumption_rate))))
+        coalesce.(:tconsumption, :resource_density ./ (:consumer_density .* :consumption_rate))),
+    consumer_body_mass = uconvert.(u"g", :consumer_body_mass),
+    cosumer_body_size = uconvert.(u"m", :consumer_body_size),
+    resource_body_mass = uconvert.(u"g", :resource_body_mass),
+    resource_body_size = uconvert.(u"m", :resource_body_size))
 
 consolidated = @transform(consolidated,
     Fr_diff = :patch_duration ./ :tsearch_diff,
