@@ -15,7 +15,7 @@ Str_breaks = 10^(-7:4)
 Le_breaks = 10^(-8:5)
 
 ggplot(patchy) +
-  geom_point(aes(x=Fr_dir, y=Str)) + 
+  geom_point(aes(x=Fr_dir, y=Str, fill=log10(Le)), shape=21, color="black", size=3) + 
   geom_point(aes(x=Fr_diff, y=Str), pch=1) + 
   geom_segment(aes(x=Fr_diff, y=Str, xend=Fr_dir, yend=Str), linetype=3) +
   geom_text_repel(aes(x=Fr_dir, y=Str, label=consumer_resource_pair), color="dark grey",
@@ -26,11 +26,11 @@ ggplot(patchy) +
   scale_y_log10(breaks=Str_breaks,
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
   coord_equal() +
-  theme_classic()
+  theme_classic() + scale_fill_gradient2()
 ggsave("graphics/Fr-Str.png", w=9, h=9)
 
 ggplot(patchy) +
-  geom_point(aes(x=Fr_dir, y=Le)) + 
+  geom_point(aes(x=Fr_dir, y=Le, fill=log10(Str)), shape=21, color="black", size=3) +
   geom_point(aes(x=Fr_diff, y=Le), pch=1) + 
   geom_segment(aes(x=Fr_diff, y=Le, xend=Fr_dir, yend=Le), linetype=3) +
   geom_text_repel(aes(x=Fr_dir, y=Le, label=consumer_resource_pair), 
@@ -41,11 +41,11 @@ ggplot(patchy) +
   scale_y_log10(breaks=Le_breaks,
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
   coord_equal() +
-  theme_classic()
+  theme_classic() + scale_fill_gradient2()
 ggsave("graphics/Fr-Le.png", w=9, h=9)
 
 ggplot(patchy) +
-  geom_point(aes(x=Str, y=Le)) + 
+  geom_point(aes(x=Str, y=Le, fill=log10(Fr_dir)), shape=21, color="black", size=3) +
   geom_text_repel(aes(x=Str, y=Le, label=consumer_resource_pair), 
                   color="dark grey", hjust=-0.1, size=3) +
   geom_vline(xintercept=1) + geom_hline(yintercept=1) +
@@ -54,7 +54,7 @@ ggplot(patchy) +
   scale_y_log10(breaks=Le_breaks,
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
   coord_equal() +
-  theme_classic()
+  theme_classic() + scale_fill_gradient2()
 ggsave("graphics/Str-Le.png", w=9, h=9)
 
 
@@ -80,3 +80,21 @@ ggplot(patchy) +
   coord_equal() +
   theme_classic()
   
+#############
+#dendrogram, cluster analysis
+
+ratios <- patchy %>%
+  select(Fr_dir, Str, Le) %>% 
+  transmute(Fr_dir=log10(Fr_dir), Str=log10(Str), Le=log10(Le)) #might want to scale these
+rownames(ratios)=paste(1:nrow(patchy), patchy$consumer_resource_pair)
+
+clust=hclust(dist(ratios))
+plot(clust)
+
+#some alternate clustering algorithms
+library(cluster)
+clust2=diana(ratios)
+plot(clust2)
+clust3=agnes(ratios)
+plot(clust3)
+
