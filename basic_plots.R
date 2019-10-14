@@ -98,4 +98,27 @@ ggplot(patchy) +
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
   coord_equal() +
   theme_classic()
-  
+
+
+xmin <- -6
+xmax <- 6
+ymin <- -4
+ymax <- 12
+plot.new()
+plot.window(xlim=c(xmin, xmax), ylim=c(ymin, ymax), xaxs="i", yaxs="i")
+for (a in seq(-12, 20, by=2)) {
+  abline(a, 1, col="#00000033")
+  abline(a, 2, col="#00000033", lty=3)
+}
+with(patchy, 
+     segments(log10(turning_interval*speed), log10(turning_interval), 
+              log10(patch_length_scale), log10(patch_duration),
+              col="#00000077"))
+points(log10(patch_duration) ~ log10(patch_length_scale), data=patchy, pch=16)
+text(log10(patch_duration) ~ log10(patch_length_scale), data=patchy, labels=1:nrow(patchy),
+     pos=3, offset=0.5)
+points(log10(turning_interval) ~ log10(turning_interval*speed), data=patchy)
+axis(1, at=xmin:xmax, labels=parse(text=paste0("10^", xmin:xmax)))
+axis(2, at=seq(ymin, ymax, by=2), labels=parse(text=paste0("10^", seq(ymin, ymax, by=2))))
+mtext("Patch separation scale (m)", 1, 3)
+mtext("Patch duration scale (s)", 2, 3)
