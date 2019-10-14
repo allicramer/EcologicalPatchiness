@@ -58,11 +58,30 @@ ggplot(patchy) +
 ggsave("graphics/Str-Le.png", w=9, h=9)
 
 
-with(patchy, plot3d(log10(Fr_dir), log10(Str), log10(Le), type="h"))
-with(patchy, points3d(log10(Fr_dir), log10(Str), log10(Le), size=10))
-planes3d(1, 0, 0, color="grey", alpha=0.5)
-planes3d(0, 1, 0, color="grey", alpha=0.5)
-planes3d(0, 0, 1, color="grey", alpha=0.5)
+
+n <- nrow(patchy)
+open3d()
+light3d(45, 45)
+
+with(patchy, plot3d(log10(Fr_dir), log10(Str), log10(Le), xlab="", ylab="", zlab="",
+                    type="s", col="red", radius=0.1, box=F))
+with(patchy, points3d(rep(log10(min(Fr_dir))-1, n), log10(Str), log10(Le), size=3, col="grey"))
+with(patchy, points3d(log10(Fr_dir), rep(log10(max(Str))+1, n), log10(Le), size=3, col="grey"))
+with(patchy, points3d(log10(Fr_dir), log10(Str), rep(log10(min(Le))-1, n), size=3, col="grey"))
+mtext3d(expression(log10[10](Fr)), "x++", line=2)
+mtext3d(expression(log[10](Str)), "y+-", line=2)
+mtext3d(expression(log[10](Le)), "z++", line=2)
+grid3d("x")
+grid3d("y+")
+grid3d("z")
+
+planes3d(1, 0, 0, alpha=0.4, depth_mask=F)
+planes3d(0, 1, 0, alpha=0.4, depth_mask=F)
+planes3d(0, 0, 1, alpha=0.4, depth_mask=F)
+abclines3d(x=0, y=0, z=0, a=0, b=1, c=0, alpha=0.8)
+abclines3d(x=0, y=0, z=0, a=1, b=0, c=0, alpha=0.8)
+abclines3d(x=0, y=0, z=0, a=0, b=0, c=1, alpha=0.8)
+
 
 patchy <- patchy %>%
   mutate(size.ratio = resource_body_size / consumer_body_size,
