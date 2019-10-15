@@ -65,9 +65,9 @@ light3d(45, 45)
 
 with(patchy, plot3d(log10(Fr_dir), log10(Str), log10(Le), xlab="", ylab="", zlab="",
                     type="s", col="red", radius=0.1, box=F))
-with(patchy, points3d(rep(log10(min(Fr_dir))-1, n), log10(Str), log10(Le), size=3, col="grey"))
-with(patchy, points3d(log10(Fr_dir), rep(log10(max(Str))+1, n), log10(Le), size=3, col="grey"))
-with(patchy, points3d(log10(Fr_dir), log10(Str), rep(log10(min(Le))-1, n), size=3, col="grey"))
+with(patchy, points3d(rep(log10(min(Fr_dir))-1, n), log10(Str), log10(Le), size=3, col="dark grey"))
+with(patchy, points3d(log10(Fr_dir), rep(log10(max(Str))+1, n), log10(Le), size=3, col="dark grey"))
+with(patchy, points3d(log10(Fr_dir), log10(Str), rep(log10(min(Le))-1, n), size=3, col="dark grey"))
 mtext3d(expression(log10[10](Fr)), "x++", line=2)
 mtext3d(expression(log[10](Str)), "y+-", line=2)
 mtext3d(expression(log[10](Le)), "z++", line=2)
@@ -81,7 +81,7 @@ planes3d(0, 0, 1, alpha=0.4, depth_mask=F)
 abclines3d(x=0, y=0, z=0, a=0, b=1, c=0, alpha=0.8)
 abclines3d(x=0, y=0, z=0, a=1, b=0, c=0, alpha=0.8)
 abclines3d(x=0, y=0, z=0, a=0, b=0, c=1, alpha=0.8)
-
+snapshot3d("graphics/Fr-Str-Le-3D.png")
 
 patchy <- patchy %>%
   mutate(size.ratio = resource_body_size / consumer_body_size,
@@ -104,6 +104,7 @@ xmin <- -6
 xmax <- 6
 ymin <- -4
 ymax <- 12
+pdf("graphics/patch_access.pdf")
 plot.new()
 plot.window(xlim=c(xmin, xmax), ylim=c(ymin, ymax), xaxs="i", yaxs="i")
 for (a in seq(-12, 20, by=2)) {
@@ -122,3 +123,4 @@ axis(1, at=xmin:xmax, labels=parse(text=paste0("10^", xmin:xmax)))
 axis(2, at=seq(ymin, ymax, by=2), labels=parse(text=paste0("10^", seq(ymin, ymax, by=2))))
 mtext("Patch separation scale (m)", 1, 3)
 mtext("Patch duration scale (s)", 2, 3)
+dev.off()
