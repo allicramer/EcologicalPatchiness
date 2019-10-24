@@ -31,3 +31,4 @@ timestamp,contributor,consumer_resource_pair,genus,species,ecosystem,interaction
 3/4/2019 17:41,Jenna,Wolf - Moose,Canis,Lupus,Terrestrial,temperate,predator,0.4,km/hr,NA,NA,22,mo,NA,NA,0.23,yr^-1,1,m,42.6,kg,16,yr,53.2,km,0.2,moose/km^2,0.0035,wolf/km^2,2.8,m,400,kg,5.6,d,4,d
 3/7/2019 16:52,Sam,Mongolian gazelle - Vegetation,Procapra,gutturosa,Terrestrial,grassland,grazer,8.2,km/d,1,d,2,yr,5,g/gazelle/minute,NA,NA,1.5,m,28,kg,30,d,20,km,20,g/m^2,281,gazelle/km^2,60,cm,7,g,NA,NA,NA,NA
 11/19/2018 2:17,Simon,Bosmina - diatoms,Bosmina,propinqua,Freshwater (lake),pelagic,grazer,0.8,mm/s,6.7,s,12.5,hr,168,cell/cladoceran/d,NA,NA,0.5,mm,2.00E-05,g,6,d,1,km,21,cell/mL,252,cladoceran/m^3,0.0001,m,5.00E-09,g,NA,NA,NA,NA
+7/30/2019 16:34,Sam,Trout - zooplankton,Oncoryncus,mykiss,Freshwater (lake),pelagic,predator,30,cm/s,7,s,4,yr,0.02,g/fish/s,NA,NA,20,cm,90,g,3,hr,1,km,50,g/m^3,0.0035,fish/m^3,1,mm,0.0005,g,NA,NA,NA,NA
