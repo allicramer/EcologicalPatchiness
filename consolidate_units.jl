@@ -82,7 +82,7 @@ output = consolidated[!, meta_vars]
 for meas in [measurements; [:tsearch_diff, :tsearch_dir, :treprod]]
     meas_units = Symbol(meas, "_units")
     output[!, meas] = ustrip.(consolidated[!, meas])
-    output[!, meas_units] = unit.(consolidated[meas])
+    output[!, meas_units] = unit.(consolidated[!, meas])
 end
-output = [output consolidated[[:Fr_diff, :Fr_dir, :Str, :Le]]]
+output = [output consolidated[!, [:Fr_diff, :Fr_dir, :Str, :Le]]]
 CSV.write("data/PatchinessData_processed.csv", output, missingstring="NA")
