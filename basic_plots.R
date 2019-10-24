@@ -104,12 +104,12 @@ xmin <- -6
 xmax <- 6
 ymin <- -4
 ymax <- 12
-pdf("graphics/patch_access.pdf")
+png("graphics/patch_access.png", w=6, h=6, units="in", res=300)
 plot.new()
 plot.window(xlim=c(xmin, xmax), ylim=c(ymin, ymax), xaxs="i", yaxs="i")
 for (a in seq(-12, 20, by=2)) {
   abline(a, 1, col="#00000033")
-  abline(a, 2, col="#00000033", lty=3)
+  abline(a, 2, col="#00000033", lty=2)
 }
 with(patchy, 
      segments(log10(turning_interval*speed), log10(turning_interval), 
@@ -121,6 +121,6 @@ text(log10(patch_duration) ~ log10(patch_length_scale), data=patchy, labels=1:nr
 points(log10(turning_interval) ~ log10(turning_interval*speed), data=patchy)
 axis(1, at=xmin:xmax, labels=parse(text=paste0("10^", xmin:xmax)))
 axis(2, at=seq(ymin, ymax, by=2), labels=parse(text=paste0("10^", seq(ymin, ymax, by=2))))
-mtext("Patch separation scale (m)", 1, 3)
-mtext("Patch duration scale (s)", 2, 3)
+mtext("Length scale (m)", 1, 3)
+mtext("Time scale (s)", 2, 3)
 dev.off()
