@@ -44,8 +44,9 @@ parseunits(u::Missing) = missing
 
 
 raw = CSV.read("data/PatchinessData_QC.csv", missingstring="NA")
-meta_vars = [:timestamp, :contributor, :consumer_resource_pair, :genus,
-    :species, :ecosystem, :interaction_system, :consumer_type]
+meta_vars = [:timestamp, :contributor, :consumer_resource_pair,
+    :consumer_resource_abbrev,:genus, :species, :ecosystem,
+    :interaction_system, :consumer_type]
 consolidated = raw[!, meta_vars]
 
 measurements = [:speed, :turning_interval, :generation_time, :consumption_rate,
