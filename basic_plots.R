@@ -92,6 +92,14 @@ patchy_bm <- patchy %>%
          Fr_dir=log10(Fr_dir), Str=log10(Str), Le=log10(Le))
 pairs(select(patchy_bm, Fr_dir, Str, Le, mass.ratio, consumer.logbm, resource.logbm))
 
+ggplot(full_join(patchy_bm, class, by="consumer_resource_pair")) +
+  geom_point(aes(y=consumer.logbm, x=resource.logbm, fill=ecosystem2, shape=consumer_type2), pch=21) +
+  theme_classic() + ylab("log10 Consumer body mass (g)") + xlab("log10 Resource body mass (g)") +
+  scale_fill_manual(values=c("black","white"),name="Ecosystem") +
+  geom_abline(slope=1, intercept = 0, lty=2) + coord_equal() +
+  theme(legend.justification = c(0, 1), legend.position = c(0, 1), legend.background = element_rect(color="black"))
+  
+
 # dendrogram, cluster analysis
 
 ratios <- patchy %>%
@@ -134,6 +142,10 @@ library(scales)
 class=read.csv("./data/Patchiness_classifications.csv")
 #check representation
 table(class$consumer_type2, class$patch_movement, class$ecosystem2)
+class$ecosystem2=sub("freshwater", "marine", class$ecosystem2)
+class$ecosystem2=sub("marine", "aquatic", class$ecosystem2)
+class$consumer_type2=sub("predator", "carnivore", class$consumer_type2)
+table(class$consumer_type2, class$ecosystem2)
 
 #log ratios
 ratiom=as.matrix(ratios)
@@ -145,8 +157,8 @@ annot_df = data.frame(system=class$ecosystem2,
                       patch_movement=class$patch_movement,
                       mass_ratio=patchy_bm$mass.ratio)
 #colors for column annotations
-annot_col = list(system = c("marine"="darkblue", "terrestrial"="green3", "freshwater"="lightblue"),
-                 consumer_type = c("predator"="black", "herbivore"="gray50", "detritovore"="gray90"),
+annot_col = list(system = c("aquatic"="darkblue", "terrestrial"="green3"),
+                 consumer_type = c("carnivore"="black", "herbivore"="gray50", "detritovore"="gray90"),
                  patch_movement = c("active"="purple","passive"="lightpink","stationary"="orange"),
                  mass_ratio = colorRamp2(c(min(annot_df$mass_ratio),0,max(annot_df$mass_ratio)), 
                                          c("tomato", "white", "cornflowerblue")) )
@@ -163,7 +175,7 @@ Heatmap(ratiom, name="log ratio", col=col_fun, border = T, row_split = 5,
 
 #same heatmap, but cluster using k-means instead of cutree
 Heatmap(ratiom, name="log ratio", col=col_fun, border = T, row_km = 5,
-        cluster_columns = F, right_annotation = ha,
+        cluster_columns = F, right_annotation = ha, row_km_repeats = 10,
         row_title = "Consumer-resource pair (kmeans clusters)",
         row_names_gp=gpar(fontsize = 9), column_names_gp=gpar(fontsize = 10),
         row_dend_width = unit(2.5, "cm"),
