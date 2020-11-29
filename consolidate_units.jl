@@ -44,9 +44,10 @@ parseunits(u::Missing) = missing
 
 
 raw = CSV.read("data/PatchinessData_QC.csv", missingstring="NA")
-meta_vars = [:timestamp, :contributor, :consumer_resource_pair, :genus,
-    :species, :ecosystem, :interaction_system, :consumer_type]
-consolidated = raw[meta_vars]
+meta_vars = [:timestamp, :contributor, :consumer_resource_pair,
+    :consumer_resource_abbrev,:genus, :species, :ecosystem,
+    :interaction_system, :consumer_type]
+consolidated = raw[!, meta_vars]
 
 measurements = [:speed, :turning_interval, :generation_time, :consumption_rate,
     :mortality_rate, :consumer_body_size, :consumer_body_mass,
@@ -55,9 +56,9 @@ measurements = [:speed, :turning_interval, :generation_time, :consumption_rate,
 
 for meas in measurements
     meas_units = Symbol(meas, "_units")
-    consolidated[meas] = raw[meas] .* parseunits.(raw[meas_units])
+    consolidated[!, meas] = raw[!, meas] .* parseunits.(raw[!, meas_units])
 end
-consolidated[:patch_duration] = uconvert.(u"s", consolidated[:patch_duration])
+consolidated[!, :patch_duration] = uconvert.(u"s", consolidated[!, :patch_duration])
 
 consolidated = @transform(consolidated,
     patch_length_scale = uconvert.(u"m", :patch_length_scale),
@@ -78,11 +79,11 @@ consolidated = @transform(consolidated,
     Str = :patch_duration ./ :treprod,
     Le = :patch_duration ./ :tconsumption)
 
-output = consolidated[meta_vars]
+output = consolidated[!, meta_vars]
 for meas in [measurements; [:tsearch_diff, :tsearch_dir, :treprod]]
     meas_units = Symbol(meas, "_units")
-    output[meas] = ustrip.(consolidated[meas])
-    output[meas_units] = unit.(consolidated[meas])
+    output[!, meas] = ustrip.(consolidated[!, meas])
+    output[!, meas_units] = unit.(consolidated[!, meas])
 end
-output = [output consolidated[[:Fr_diff, :Fr_dir, :Str, :Le]]]
+output = [output consolidated[!, [:Fr_diff, :Fr_dir, :Str, :Le]]]
 CSV.write("data/PatchinessData_processed.csv", output, missingstring="NA")

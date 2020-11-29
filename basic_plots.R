@@ -5,68 +5,100 @@ library(tidyr)
 library(rgl)
 
 patchy <- read.csv("data/PatchinessData_processed.csv", stringsAsFactors=F)
-# head(patchy)
-# 
-# ratios <- patchy %>%
-#   select(consumer_resource_pair, ecosystem, interaction_system, consumer_type, Fr_diff, Fr_dir, Str, Le)
-
-Fr_breaks = 10^(-8:9)
-Str_breaks = 10^(-7:4)
-Le_breaks = 10^(-8:5)
-
-ggplot(patchy) +
-  geom_point(aes(x=Fr_dir, y=Str, fill=log10(Le)), shape=21, color="black", size=3) + 
-  geom_point(aes(x=Fr_diff, y=Str), pch=1) + 
-  geom_segment(aes(x=Fr_diff, y=Str, xend=Fr_dir, yend=Str), linetype=3) +
-  geom_text_repel(aes(x=Fr_dir, y=Str, label=consumer_resource_pair), color="dark grey",
-                  direction="y", hjust=-0.1, size=3) +
-  geom_vline(xintercept=1) + geom_hline(yintercept=1) +
-  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-7, 10^11),
-                labels = scales::trans_format("log10", scales::math_format(10^.x))) + 
-  scale_y_log10(breaks=Str_breaks,
-                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-  coord_equal() +
-  theme_classic() + scale_fill_gradient2()
-ggsave("graphics/Fr-Str.png", w=9, h=9)
-
-ggplot(patchy) +
-  geom_point(aes(x=Fr_dir, y=Le, fill=log10(Str)), shape=21, color="black", size=3) +
-  geom_point(aes(x=Fr_diff, y=Le), pch=1) + 
-  geom_segment(aes(x=Fr_diff, y=Le, xend=Fr_dir, yend=Le), linetype=3) +
-  geom_text_repel(aes(x=Fr_dir, y=Le, label=consumer_resource_pair), 
-                  direction="y", color="dark grey", hjust=-0.1, size=3) +
-  geom_vline(xintercept=1) + geom_hline(yintercept=1) +
-  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-7, 10^13), 
-                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-  scale_y_log10(breaks=Le_breaks,
-                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-  coord_equal() +
-  theme_classic() + scale_fill_gradient2()
-ggsave("graphics/Fr-Le.png", w=9, h=9)
-
-ggplot(patchy) +
-  geom_point(aes(x=Str, y=Le, fill=log10(Fr_dir)), shape=21, color="black", size=3) +
-  geom_text_repel(aes(x=Str, y=Le, label=consumer_resource_pair), 
-                  color="dark grey", hjust=-0.1, size=3) +
-  geom_vline(xintercept=1) + geom_hline(yintercept=1) +
-  scale_x_log10(breaks=Str_breaks, limits=c(10^-6, 10^6),
-                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-  scale_y_log10(breaks=Le_breaks,
-                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-  coord_equal() +
-  theme_classic() + scale_fill_gradient2()
-ggsave("graphics/Str-Le.png", w=9, h=9)
-
-
-with(patchy, plot3d(log10(Fr_dir), log10(Str), log10(Le), type="h"))
-with(patchy, points3d(log10(Fr_dir), log10(Str), log10(Le), size=10, color=groups.5))
-planes3d(1, 0, 0, color="grey", alpha=0.5)
-planes3d(0, 1, 0, color="grey", alpha=0.5)
-planes3d(0, 0, 1, color="grey", alpha=0.5)
 
 patchy <- patchy %>%
   mutate(size.ratio = resource_body_size / consumer_body_size,
-         mass.ratio = resource_body_mass / consumer_body_mass)
+         mass.ratio = resource_body_mass / consumer_body_mass,
+         label = 1:n(),
+         mean.field.sum = (Fr_dir < 1) + (Str < 1) + (Le < 1),
+         mean.field.ok = Fr_dir < 1 & Str < 1 & Le < 1)
+
+patchy %>%
+  select(consumer_resource_pair, Fr_dir, Str, Le, mean.field.sum) %>%
+  mutate(consumer_resource_pair = substr(consumer_resource_pair, 1, 30)) %>%
+  arrange(desc(mean.field.sum))
+
+Fr_breaks = 10^(-8:9)
+Str_breaks = 10^(-7:6)
+Le_breaks = 10^(-8:5)
+
+p1 <- ggplot(patchy) +
+  geom_point(aes(x=Fr_dir, y=Str)) + 
+  geom_point(aes(x=Fr_diff, y=Str), pch=1) + 
+  geom_segment(aes(x=Fr_diff, y=Str, xend=Fr_dir, yend=Str), alpha=0.5, size=0.25) +
+  geom_text_repel(aes(x=Fr_dir, y=Str, label=label), alpha=0.5, box.padding=0.3,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2) +
+  geom_vline(xintercept=1, size=0.25) + geom_hline(yintercept=1, size=0.25) +
+  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-8, 10^9),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) + 
+  scale_y_log10(breaks=Str_breaks, limits=c(10^-7, 10^5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  coord_equal() +
+  theme_classic()
+p1
+ggsave("graphics/Fr-Str.png", p1, w=5, h=5)
+
+
+p2 <- ggplot(patchy) +
+  geom_point(aes(x=Fr_dir, y=Le)) + 
+  geom_point(aes(x=Fr_diff, y=Le), pch=1) + 
+  geom_segment(aes(x=Fr_diff, y=Le, xend=Fr_dir, yend=Le), alpha=0.5, size=0.25) +
+  geom_text_repel(aes(x=Fr_dir, y=Le, label=label), alpha=0.5, box.padding=0.3,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2) +
+  geom_vline(xintercept=1, size=0.25) + geom_hline(yintercept=1, size=0.25) +
+  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-8, 10^9), 
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_y_log10(breaks=Le_breaks,
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  coord_equal() +
+  theme_classic()
+p2
+ggsave("graphics/Fr-Le.png", p2, w=5, h=5)
+
+p3 <- ggplot(patchy) +
+  geom_point(aes(x=Str, y=Le)) + 
+  geom_text_repel(aes(x=Str, y=Le, label=label), alpha=0.5, box.padding=0.3,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2) +
+  geom_vline(xintercept=1, size=0.25) + geom_hline(yintercept=1, size=0.25) +
+  scale_x_log10(breaks=Str_breaks, limits=c(10^-7, 10^5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_y_log10(breaks=Le_breaks,
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  coord_equal() +
+  theme_classic()
+p3
+ggsave("graphics/Str-Le.png", w=4.5, h=4)
+
+
+
+n <- nrow(patchy)
+open3d()
+light3d(45, 45)
+
+with(patchy, plot3d(log10(Fr_dir), log10(Str), log10(Le), xlab="", ylab="", zlab="",
+                    type="s", col="red", radius=0.1, box=F))
+with(patchy, points3d(rep(log10(min(Fr_dir))-1, n), log10(Str), log10(Le), size=3, col="dark grey"))
+with(patchy, points3d(log10(Fr_dir), rep(log10(max(Str))+1, n), log10(Le), size=3, col="dark grey"))
+with(patchy, points3d(log10(Fr_dir), log10(Str), rep(log10(min(Le))-1, n), size=3, col="dark grey"))
+mtext3d(expression(log10[10](Fr)), "x++", line=2)
+mtext3d(expression(log[10](Str)), "y+-", line=2)
+mtext3d(expression(log[10](Le)), "z++", line=2)
+grid3d("x")
+grid3d("y+")
+grid3d("z")
+
+planes3d(1, 0, 0, alpha=0.4, depth_mask=F)
+planes3d(0, 1, 0, alpha=0.4, depth_mask=F)
+planes3d(0, 0, 1, alpha=0.4, depth_mask=F)
+abclines3d(x=0, y=0, z=0, a=0, b=1, c=0, alpha=0.8)
+abclines3d(x=0, y=0, z=0, a=1, b=0, c=0, alpha=0.8)
+abclines3d(x=0, y=0, z=0, a=0, b=0, c=1, alpha=0.8)
+snapshot3d("graphics/Fr-Str-Le-3D.png")
+
+summary(lm(log10(Str) ~ log10(Fr_dir), patchy))
+summary(lm(log10(Fr_dir) ~ log10(Le), patchy))
+summary(lm(log10(Le) ~ log10(Str), patchy))
+
 
 ggplot(patchy) +
   geom_point(aes(x=Fr_dir, y=Str, size=mass.ratio)) + 
@@ -79,105 +111,33 @@ ggplot(patchy) +
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
   coord_equal() +
   theme_classic()
-  
-#############
-
-# body size and body size log ratios
-
-patchy_bm <- patchy %>%
-  mutate(size.ratio = log10(resource_body_size / consumer_body_size),
-         mass.ratio = log10(resource_body_mass / consumer_body_mass),
-         consumer.logbm = log10(consumer_body_mass),
-         resource.logbm = log10(resource_body_mass),
-         Fr_dir=log10(Fr_dir), Str=log10(Str), Le=log10(Le))
-pairs(select(patchy_bm, Fr_dir, Str, Le, mass.ratio, consumer.logbm, resource.logbm))
-
-ggplot(full_join(patchy_bm, class, by="consumer_resource_pair")) +
-  geom_point(aes(y=consumer.logbm, x=resource.logbm, fill=ecosystem2, shape=consumer_type2), pch=21) +
-  theme_classic() + ylab("log10 Consumer body mass (g)") + xlab("log10 Resource body mass (g)") +
-  scale_fill_manual(values=c("black","white"),name="Ecosystem") +
-  geom_abline(slope=1, intercept = 0, lty=2) + coord_equal() +
-  theme(legend.justification = c(0, 1), legend.position = c(0, 1), legend.background = element_rect(color="black"))
-  
-
-# dendrogram, cluster analysis
-
-ratios <- patchy %>%
-  select(Fr_dir, Str, Le) %>% 
-  transmute(Fr_dir=log10(Fr_dir), Str=log10(Str), Le=log10(Le))
-rownames(ratios)=paste(1:nrow(patchy), patchy$consumer_resource_pair)
-
-#basic dendrogram
-clust=hclust(dist(ratios))
-plot(clust)
-
-#some alternate clustering algorithms
-# library(cluster)
-# clust2=diana(ratios)
-# plot(clust2)
-# clust3=agnes(ratios)
-# plot(clust3)
-
-#plot clusters in 3d
-groups.5 = cutree(clust,5)
-with(patchy, plot3d(log10(Fr_dir), log10(Str), log10(Le), type="h"))
-with(patchy, points3d(log10(Fr_dir), log10(Str), log10(Le), size=10, color=groups.5))
-planes3d(1, 0, 0, color="grey", alpha=0.5)
-planes3d(0, 1, 0, color="grey", alpha=0.5)
-planes3d(0, 0, 1, color="grey", alpha=0.5)
-# rgl.snapshot("./graphics/cluster3d.png")
 
 
-#fancier heatmap plus dendrogram
-
-# install.packages("BiocManager")
-# BiocManager::install("ComplexHeatmap")
-# a very complete manual: https://jokergoo.github.io/ComplexHeatmap-reference/book/
-
-library(ComplexHeatmap)
-library(circlize)
-library(scales)
-
-#classification variables
-class=read.csv("./data/Patchiness_classifications.csv")
-#check representation
-table(class$consumer_type2, class$patch_movement, class$ecosystem2)
-class$ecosystem2=sub("freshwater", "marine", class$ecosystem2)
-class$ecosystem2=sub("marine", "aquatic", class$ecosystem2)
-class$consumer_type2=sub("predator", "carnivore", class$consumer_type2)
-table(class$consumer_type2, class$ecosystem2)
-
-#log ratios
-ratiom=as.matrix(ratios)
-#colors for ratios (same as ggplot2::scale_fill_gradient2())
-col_fun = colorRamp2(c(-10, 0, 10), c(muted("red"), "white", muted("blue")))
-#column annotations
-annot_df = data.frame(system=class$ecosystem2, 
-                      consumer_type=class$consumer_type2, 
-                      patch_movement=class$patch_movement,
-                      mass_ratio=patchy_bm$mass.ratio)
-#colors for column annotations
-annot_col = list(system = c("aquatic"="darkblue", "terrestrial"="green3"),
-                 consumer_type = c("carnivore"="black", "herbivore"="gray50", "detritovore"="gray90"),
-                 patch_movement = c("active"="purple","passive"="lightpink","stationary"="orange"),
-                 mass_ratio = colorRamp2(c(min(annot_df$mass_ratio),0,max(annot_df$mass_ratio)), 
-                                         c("tomato", "white", "cornflowerblue")) )
-#create object for annotations
-ha <- HeatmapAnnotation(df=annot_df, col = annot_col, which="row",
-                        annotation_name_gp=gpar(fontsize = 10))
-#generate heatmap
-Heatmap(ratiom, name="log ratio", col=col_fun, border = T, row_split = 5, 
-        cluster_columns = F, right_annotation = ha,
-        row_title = "Consumer-resource pair",
-        row_names_gp=gpar(fontsize = 9), column_names_gp=gpar(fontsize = 10),
-        row_dend_width = unit(2.5, "cm"),
-        row_names_max_width = max_text_width(rownames(ratiom), gp = gpar(fontsize = 9)))
-
-#same heatmap, but cluster using k-means instead of cutree
-Heatmap(ratiom, name="log ratio", col=col_fun, border = T, row_km = 5,
-        cluster_columns = F, right_annotation = ha, row_km_repeats = 10,
-        row_title = "Consumer-resource pair (kmeans clusters)",
-        row_names_gp=gpar(fontsize = 9), column_names_gp=gpar(fontsize = 10),
-        row_dend_width = unit(2.5, "cm"),
-        row_names_max_width = max_text_width(rownames(ratiom), gp = gpar(fontsize = 9)))
-
+xmin <- -6
+xmax <- 6
+ymin <- -4
+ymax <- 12
+png("graphics/patch_access.png", w=6, h=6, units="in", res=300)
+  plot.new()
+  plot.window(xlim=c(xmin, xmax), ylim=c(ymin, ymax), xaxs="i", yaxs="i")
+  # Draw grid of sloped lines
+  for (a in seq(-12, 20, by=2)) {
+    abline(a, 1, col="#00000033")
+    abline(a, 2, col="#00000033", lty=2)
+  }
+  x0 <- with(patchy, log10(turning_interval*speed))
+  y0 <- log10(patchy$turning_interval)
+  x1 <- log10(patchy$patch_length_scale)
+  y1 <- log10(patchy$patch_duration)
+  slopes <- atan2(y1-y0, x1-x0)
+  colors <- rep("#00000077", length(x0))
+  colors[slopes < pi/4] <- "red"
+  segments(x0, y0, x1, y1, col=colors)
+  points(x1, y1, pch=16)
+  text(y1 ~ x1, labels=1:nrow(patchy), pos=3, offset=0.5, cex=0.6)
+  points(log10(turning_interval) ~ log10(turning_interval*speed), data=patchy)
+  axis(1, at=xmin:xmax, labels=parse(text=paste0("10^", xmin:xmax)))
+  axis(2, at=seq(ymin, ymax, by=2), labels=parse(text=paste0("10^", seq(ymin, ymax, by=2))))
+  mtext("Length scale (m)", 1, 3)
+  mtext("Time scale (s)", 2, 3)
+dev.off()
