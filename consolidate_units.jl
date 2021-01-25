@@ -14,7 +14,7 @@ module OrganismUnits
     organisms = ["Acorn", "Bacteria", "Beaver", "Beetle", "Beetle", "Bird",
         "Caddisfly", "Caterpillar", "Cell", "Cockle", "Copepod", "Cladoceran", "Crab",
         "Ctenophore", "Elk", "Fish", "Fly", "Gazelle", "Insect", "Locust",
-        "Moose", "Mouse", "Mussel", "Nut", "Plant", "Seal", "Seastar", "Seed",
+        "Molecule", "Moose", "Mouse", "Mussel", "Nut", "Plant", "Seal", "Seastar", "Seed",
         "Shark", "Squirrel", "Superpatch", "Tree", "Tuna", "Turd", "Whale",
         "Wolf", "Worm"]
     for org in organisms
@@ -43,7 +43,8 @@ end
 parseunits(u::Missing) = missing
 
 
-raw = CSV.read("data/PatchinessData_QC.csv", missingstring="NA")
+raw = CSV.read(joinpath(@__DIR__, "data/PatchinessData_QC.csv"), DataFrame,
+    missingstring="NA")
 meta_vars = [:timestamp, :contributor, :consumer_resource_pair,
     :consumer_resource_abbrev,:genus, :species, :ecosystem,
     :interaction_system, :consumer_type]
@@ -86,4 +87,5 @@ for meas in [measurements; [:tsearch_diff, :tsearch_dir, :treprod]]
     output[!, meas_units] = unit.(consolidated[!, meas])
 end
 output = [output consolidated[!, [:Fr_diff, :Fr_dir, :Str, :Le]]]
-CSV.write("data/PatchinessData_processed.csv", output, missingstring="NA")
+CSV.write(joinpath(@__DIR__, "data/PatchinessData_processed.csv"), output,
+    missingstring="NA")
