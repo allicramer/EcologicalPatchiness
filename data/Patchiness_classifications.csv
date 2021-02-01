@@ -23,12 +23,11 @@ Caddisfly - Periphyton on cobble stones,21. Caddisfly - Periphyton,freshwater,he
 Fruit flies - Marula fruit,22. Fruit fly - Marula fruit,terrestrial,detritovore,stationary,single
 Pisaster sea star- Mussels,23. Pisaster sea star- Mussels,marine,predator,stationary,multiple
 Beaver - Maple (5cm),24. Beaver - Maple (5cm),terrestrial,herbivore,stationary,?
-Beaver - Maple Tree (4cm),25. Beaver - Maple (4cm),terrestrial,herbivore,stationary,?
-Beaver - Maple (3cm),26. Beaver - Maple (3cm),terrestrial,herbivore,stationary,?
 Killer whale - Chinook salmon,27. Killer whale - Chinook salmon,marine,predator,active,multiple
 Beach mouse - Dune vegetation seeds,28. Beach mouse - Dune seeds,terrestrial,herbivore,stationary,multiple
-Marine bacteria - Nutrients,29. Marine bacterium - Nutrients,marine,detritovore,passive,multiple
+Pseudoalteromonas - Nutrients,29. Pseudoalteromonas - Nutrients,marine,detritovore,passive,multiple
 Wolf - Moose,30. Wolf - Moose,terrestrial,predator,active,multiple
 Mongolian gazelle - Vegetation,31. Mongolian gazelle - Vegetation,terrestrial,herbivore,stationary,multiple
 Bosmina - diatoms,32. Bosmina - Diatoms,freshwater,herbivore,passive,multiple
 Trout - zooplankton,33. Trout - Zooplankton,freshwater,predator,passive,multiple
+Vibrio - nutrients,34. Vibrio - Nutrients,marine,detritovore,passive,multiple
