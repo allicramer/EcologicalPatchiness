@@ -3,6 +3,7 @@
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(stringr)
 library(rgl)
 # install.packages("BiocManager")
 # BiocManager::install("ComplexHeatmap")
@@ -11,7 +12,9 @@ library(ComplexHeatmap)
 library(circlize)
 library(scales)
 
-patchy <- read.csv("data/PatchinessData_processed.csv", stringsAsFactors=F)
+patchy <- read.csv("data/PatchinessData_processed.csv", stringsAsFactors=F) %>%
+  arrange(consumer_body_mass) %>%
+  mutate(name = paste(str_pad(paste0(1:n(), "."), 3, "left"), consumer_resource_pair))
 #classification variables
 class=read.csv("./data/Patchiness_classifications.csv")
 #see representation
@@ -33,7 +36,7 @@ ratios <- patchy %>%
   select(Fr_dir, Str, Le) %>% 
   transmute(Fr=log10(Fr_dir), Str=log10(Str), Le=log10(Le))
 #rownames(ratios)=paste(1:nrow(patchy), class$name)
-rownames(ratios)=class$name
+rownames(ratios) = patchy$name
 ratiom=as.matrix(ratios)
 
 #colors for ratios 
@@ -59,9 +62,9 @@ ha <- HeatmapAnnotation(df=annot_df, col = annot_col, which="row",
                         annotation_name_gp=gpar(fontsize = 10))
 
 #generate heatmap
-pdf("./graphics/heatmap.pdf", width = 6.25, height = 5.5)
-png("./graphics/heatmap.png", width = 6.25, height = 5.5, units = "in", res=300)
-Heatmap(ratiom, name="log Ratio", col=col_fun, border = T, row_split = 5, 
+# pdf("./graphics/heatmap.pdf", width = 6.25, height = 5.5)
+png("./graphics/heatmap_cuttree.png", width = 6.25, height = 5.5, units = "in", res=300)
+Heatmap(ratiom, name="log Ratio", col=col_fun, border = T, row_split = 7, 
         cluster_columns = F, right_annotation = ha,
         row_title = "Consumer-resource pair",
         row_names_gp=gpar(fontsize = 9), column_names_gp=gpar(fontsize = 10),
@@ -71,12 +74,14 @@ dev.off()
 
 
 #same heatmap, but cluster using k-means instead of cutree
+png("./graphics/heatmap_kmeans.png", width = 6.25, height = 5.5, units = "in", res=300)
 Heatmap(ratiom, name="log ratio", col=col_fun, border = T, row_km = 5,
         cluster_columns = F, right_annotation = ha,
         row_title = "Consumer-resource pair (kmeans clusters)",
         row_names_gp=gpar(fontsize = 9), column_names_gp=gpar(fontsize = 10),
         row_dend_width = unit(2.5, "cm"),
         row_names_max_width = max_text_width(rownames(ratiom), gp = gpar(fontsize = 9)))
+dev.off()
 
 #basic dendrogram
 clust=hclust(dist(ratios))
