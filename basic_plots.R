@@ -7,6 +7,7 @@ library(rgl)
 patchy <- read.csv("data/PatchinessData_processed.csv", stringsAsFactors=F)
 
 patchy <- patchy %>%
+  arrange(consumer_body_mass) %>%
   mutate(size.ratio = resource_body_size / consumer_body_size,
          mass.ratio = resource_body_mass / consumer_body_mass,
          label = 1:n(),
@@ -18,17 +19,18 @@ patchy %>%
   mutate(consumer_resource_pair = substr(consumer_resource_pair, 1, 30)) %>%
   arrange(desc(mean.field.sum))
 
-Fr_breaks = 10^(-8:9)
-Str_breaks = 10^(-7:6)
-Le_breaks = 10^(-8:5)
+Fr_breaks = 10^seq(-8, 10, by=2)
+Str_breaks = 10^seq(-8, 4, by=2)
+Le_breaks = 10^seq(-8, 6, by=2)
 
 p1 <- ggplot(patchy) +
+  geom_vline(xintercept=1, size=0.25, alpha=0.5, linetype=3) + 
+  geom_hline(yintercept=1, size=0.25, alpha=0.5, linetype=3) +
+  geom_segment(aes(x=Fr_diff, y=Str, xend=Fr_dir, yend=Str), alpha=0.3, size=0.25) +
+  geom_point(aes(x=Fr_diff, y=Str), col="#cccccc") + 
   geom_point(aes(x=Fr_dir, y=Str)) + 
-  geom_point(aes(x=Fr_diff, y=Str), pch=1) + 
-  geom_segment(aes(x=Fr_diff, y=Str, xend=Fr_dir, yend=Str), alpha=0.5, size=0.25) +
-  geom_text_repel(aes(x=Fr_dir, y=Str, label=label), alpha=0.5, box.padding=0.3,
-                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2) +
-  geom_vline(xintercept=1, size=0.25) + geom_hline(yintercept=1, size=0.25) +
+  geom_text_repel(aes(x=Fr_dir, y=Str, label=label), alpha=0.7, box.padding=0.1,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2.2) +
   scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-8, 10^9),
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) + 
   scale_y_log10(breaks=Str_breaks, limits=c(10^-7, 10^5),
@@ -36,16 +38,17 @@ p1 <- ggplot(patchy) +
   coord_equal() +
   theme_classic()
 p1
-ggsave("graphics/Fr-Str.png", p1, w=5, h=5)
+ggsave("graphics/Fr-Str.png", p1, w=4, h=4)
 
 
 p2 <- ggplot(patchy) +
+  geom_vline(xintercept=1, size=0.25, alpha=0.5, linetype=3) + 
+  geom_hline(yintercept=1, size=0.25, alpha=0.5, linetype=3) +
+  geom_segment(aes(x=Fr_diff, y=Le, xend=Fr_dir, yend=Le), alpha=0.3, size=0.25) +
+  geom_point(aes(x=Fr_diff, y=Le), col="#cccccc") + 
   geom_point(aes(x=Fr_dir, y=Le)) + 
-  geom_point(aes(x=Fr_diff, y=Le), pch=1) + 
-  geom_segment(aes(x=Fr_diff, y=Le, xend=Fr_dir, yend=Le), alpha=0.5, size=0.25) +
-  geom_text_repel(aes(x=Fr_dir, y=Le, label=label), alpha=0.5, box.padding=0.3,
-                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2) +
-  geom_vline(xintercept=1, size=0.25) + geom_hline(yintercept=1, size=0.25) +
+  geom_text_repel(aes(x=Fr_dir, y=Le, label=label), alpha=0.7, box.padding=0.1,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2.2) +
   scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-8, 10^9), 
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
   scale_y_log10(breaks=Le_breaks,
@@ -53,13 +56,14 @@ p2 <- ggplot(patchy) +
   coord_equal() +
   theme_classic()
 p2
-ggsave("graphics/Fr-Le.png", p2, w=5, h=5)
+ggsave("graphics/Fr-Le.png", p2, w=4, h=4)
 
 p3 <- ggplot(patchy) +
+  geom_vline(xintercept=1, size=0.25, alpha=0.5, linetype=3) + 
+  geom_hline(yintercept=1, size=0.25, alpha=0.5, linetype=3) +
   geom_point(aes(x=Str, y=Le)) + 
-  geom_text_repel(aes(x=Str, y=Le, label=label), alpha=0.5, box.padding=0.3,
-                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2) +
-  geom_vline(xintercept=1, size=0.25) + geom_hline(yintercept=1, size=0.25) +
+  geom_text_repel(aes(x=Str, y=Le, label=label), alpha=0.7, box.padding=0.1,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2.2) +
   scale_x_log10(breaks=Str_breaks, limits=c(10^-7, 10^5),
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
   scale_y_log10(breaks=Le_breaks,
@@ -67,7 +71,7 @@ p3 <- ggplot(patchy) +
   coord_equal() +
   theme_classic()
 p3
-ggsave("graphics/Str-Le.png", w=4.5, h=4)
+ggsave("graphics/Str-Le.png", p3, w=4.5, h=4)
 
 
 

@@ -14,7 +14,7 @@ library(scales)
 
 patchy <- read.csv("data/PatchinessData_processed.csv", stringsAsFactors=F) %>%
   arrange(consumer_body_mass) %>%
-  mutate(name = paste(str_pad(paste0(1:n(), "."), 3, "left"), consumer_resource_pair))
+  mutate(name = paste(str_pad(1:n(), 3, "right"), consumer_resource_pair))
 #classification variables
 class=read.csv("./data/Patchiness_classifications.csv")
 #see representation
