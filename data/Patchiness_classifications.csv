@@ -1,33 +1,34 @@
-consumer_resource_pair,name,ecosystem2,consumer_type2,patch_movement,patch_composition
-Terns - Forage fishes,1. Tern - Forage fish,marine,predator,active,multiple
-Desert locust - Vegetation,2. Desert locust - Vegetation,terrestrial,herbivore,stationary,?
-Chimney swifts - Aerial plankton,3. Chimney swifts - Aerial plankton,terrestrial,predator,passive,multiple
-Tuna - Herring,4. Tuna - Herring,marine,predator,active,multiple
-White sharks - Seals,5. White shark - Seals,marine,predator,active,multiple
-Green crabs - Cockles,6. Green crab - Cockles,marine,predator,stationary,multiple
-Northern sea stars - Mussels,7. Northern sea star - Mussels,marine,predator,stationary,multiple
-Spider monkeys - Fruit trees,8. Spider monkey - Fruit trees,terrestrial,herbivore,stationary,multiple
-Murres - Zooplankton/fish,9. Murre - Zooplankton/fish,marine,predator,active,multiple
-Bone worms - Whale falls,10. Bone worm - Whale fall,marine,detritovore,stationary,single
-Red knots - Molluscs,11. Red knot - Cockles,marine,predator,stationary,multiple
-Red knots - Molluscs,12. Red knot - Clams,marine,predator,stationary,multiple
-Penguin - Fish school,13. Penguin - Fish school,marine,predator,active,multiple
-Elk - Forest patch,14. Elk - Forest patch,terrestrial,herbivore,stationary,multiple
-Fur seals - Pollock,15. Fur seal - Pollock,marine,predator,active,multiple
-Dung beetle - Dung,16. Dung beetle - Dung,terrestrial,detritovore,stationary,single
-Caterpillar - Kale plants,17. Caterpillar - Kale plant,terrestrial,herbivore,stationary,single
-Eastern gray squirrel - Red oak acorn,18. Squirrel - Acorns,terrestrial,herbivore,stationary,multiple
-Ctenophores - Copepods,19. Ctenophore - Copepods,marine,predator,passive,multiple
-Copepods - Phytoplankton thin layers,20. Copepod - Phytoplankton layer,marine,herbivore,passive,multiple
-Caddisfly - Periphyton on cobble stones,21. Caddisfly - Periphyton,freshwater,herbivore,stationary,multiple
-Fruit flies - Marula fruit,22. Fruit fly - Marula fruit,terrestrial,detritovore,stationary,single
-Pisaster sea star- Mussels,23. Pisaster sea star- Mussels,marine,predator,stationary,multiple
-Beaver - Maple (5cm),24. Beaver - Maple (5cm),terrestrial,herbivore,stationary,?
-Killer whale - Chinook salmon,27. Killer whale - Chinook salmon,marine,predator,active,multiple
-Beach mouse - Dune vegetation seeds,28. Beach mouse - Dune seeds,terrestrial,herbivore,stationary,multiple
-Pseudoalteromonas - Nutrients,29. Pseudoalteromonas - Nutrients,marine,detritovore,passive,multiple
-Wolf - Moose,30. Wolf - Moose,terrestrial,predator,active,multiple
-Mongolian gazelle - Vegetation,31. Mongolian gazelle - Vegetation,terrestrial,herbivore,stationary,multiple
-Bosmina - diatoms,32. Bosmina - Diatoms,freshwater,herbivore,passive,multiple
-Trout - zooplankton,33. Trout - Zooplankton,freshwater,predator,passive,multiple
-Vibrio - nutrients,34. Vibrio - Nutrients,marine,detritovore,passive,multiple
+consumer_resource_pair,consumer_body_mass,ecosystem2,consumer_type2,patch_movement,patch_composition
+Terns - Forage fishes,133,marine,predator,active,multiple
+Desert locust - Vegetation,2,terrestrial,herbivore,stationary,?
+Chimney swifts - Aerial plankton,23.5,terrestrial,predator,passive,multiple
+Tuna - Herring,237000,marine,predator,active,multiple
+White sharks - Seals,600000,marine,predator,active,multiple
+Green crabs - Cockles,1,marine,predator,stationary,multiple
+Northern sea stars - Mussels,60,marine,predator,stationary,multiple
+Spider monkeys - Fruit trees,7700,terrestrial,herbivore,stationary,multiple
+Murres - Zooplankton/fish,900,marine,predator,active,multiple
+Bone worms - Whale falls,0.15,marine,detritovore,stationary,single
+Red knots - Cockles,125,marine,predator,stationary,multiple
+Red knots - Clams,125,marine,predator,stationary,multiple
+Penguin - Fish school,1060,marine,predator,active,multiple
+Elk - Forest patch,175000,terrestrial,herbivore,stationary,multiple
+Fur seals - Pollock,120000,marine,predator,active,multiple
+Dung beetle - Dung,6.1,terrestrial,detritovore,stationary,single
+Caterpillar - Kale plants,0.135,terrestrial,herbivore,stationary,single
+Eastern gray squirrel - Acorn,500,terrestrial,herbivore,stationary,multiple
+Ctenophores - Copepods,10,marine,predator,passive,multiple
+Copepods - Phytoplankton layers,5E-05,marine,herbivore,passive,multiple
+Caddisfly - Periphyton,0.14,freshwater,herbivore,stationary,multiple
+Fruit flies - Marula fruit,0.001,terrestrial,detritovore,stationary,single
+Pisaster sea star- Mussels,192,marine,predator,stationary,multiple
+Beaver - Maple tree,21000,terrestrial,herbivore,stationary,?
+Killer whale - Chinook salmon,5000000,marine,predator,active,multiple
+Beach mouse - Dune seeds,12.5,terrestrial,herbivore,stationary,multiple
+Pseudoalteromonas - Nutrients,1E-11,marine,detritovore,passive,multiple
+Wolf - Moose,42600,terrestrial,predator,active,multiple
+Mongolian gazelle - Vegetation,28000,terrestrial,herbivore,stationary,multiple
+Bosmina - Diatoms,2E-05,freshwater,herbivore,passive,multiple
+Trout - Zooplankton,90,freshwater,predator,passive,multiple
+Vibrio - Nutrients,1E-06,marine,detritovore,passive,multiple
+Blue whale - Krill,90909000,marine,predator,active,multiple

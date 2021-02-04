@@ -31,3 +31,4 @@ timestamp,contributor,consumer_resource_pair,consumer_resource_abbrev,genus,spec
 11/19/2018 2:17,Simon,Bosmina - Diatoms,Bo-Di,Bosmina,propinqua,Freshwater (lake),pelagic,grazer,0.8,mm/s,6.7,s,12.5,hr,168,cell/cladoceran/d,NA,NA,0.5,mm,2E-05,g,6,d,1,km,21,cell/mL,252,cladoceran/m^3,0.0001,m,5E-09,g,NA,NA,NA,NA
 7/30/2019 16:34,Sam,Trout - Zooplankton,Tr-Zo,Oncoryncus,mykiss,Freshwater (lake),pelagic,predator,30,cm/s,7,s,4,yr,0.02,g/fish/s,NA,NA,20,cm,90,g,3,hr,1,km,50,g/m^3,0.0035,fish/m^3,1,mm,0.0005,g,NA,NA,NA,NA
 1/24/2021 18:24,Sam,Vibrio - Nutrients,Vb-Nu,Vibrio,ordalii,Marine,epipelagic,detritovore,0.01,mm/s,4,s,5,hr,20000,molecule/bacteria/s,NA,NA,0.0005,mm,0.001,mg,100,minute,1,mm,3E+020,molecule/mL,5290,bacteria/mm^3,1,nm,1E-22,g,NA,NA,NA,NA
+02/03/21 11:02 PM,Sam,Blue whale - Krill,Bw-Kr,Balaenoptera,musculus,Marine,epipelagic,predator,3.7,km/hr,400,s,10,yr,105,kg/whale/minute,NA,NA,22,m,90909,kg,6,hr,7,km,1,kg/m^2,0.021,whale/km^2,20,mm,35,mg,NA,NA,NA,NA
