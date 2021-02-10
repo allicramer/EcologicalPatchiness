@@ -14,7 +14,7 @@ module OrganismUnits
     organisms = ["Acorn", "Bacteria", "Beaver", "Beetle", "Beetle", "Bird",
         "Caddisfly", "Caterpillar", "Cell", "Cockle", "Copepod", "Cladoceran", "Crab",
         "Ctenophore", "Elk", "Fish", "Fly", "Gazelle", "Insect", "Locust",
-        "Molecule", "Moose", "Mouse", "Mussel", "Nut", "Plant", "Seal", "Seastar", "Seed",
+        "Molecule", "Moose", "Mouse", "Mussel", "Nut", "Patch", "Plant", "Seal", "Seastar", "Seed",
         "Shark", "Squirrel", "Superpatch", "Tree", "Tuna", "Turd", "Whale",
         "Wolf", "Worm"]
     for org in organisms
