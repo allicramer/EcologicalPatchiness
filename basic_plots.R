@@ -145,3 +145,35 @@ png("graphics/patch_access.png", w=6, h=6, units="in", res=300)
   mtext("Length scale (m)", 1, 3)
   mtext("Time scale (s)", 2, 3)
 dev.off()
+
+
+minute = 60
+hour = minute*60
+day = hour*24
+month = day*30
+year = day*365
+decade = year*10
+century = year*100
+millenium = century * 10
+h = c(minute, hour, day, month, year, decade, century, millenium)
+hline_data = data.frame(x=1e-4, h=h, 
+    label=c("Minute", "Hour", "Day", "Month", "Year", "Decade", "Century", "Millenium"))
+
+png("graphics/patch_scales.png", w=8, h=7, units="in", res=300)
+ggplot(patchy) +
+  geom_hline(yintercept=h, linetype=3, color="dark grey") +
+  geom_text(aes(x=x, y=h*1.5, label=label), data=hline_data, hjust="left",
+            color="dark grey") +
+  geom_point(aes(x=patch_length_scale, y=patch_duration)) +
+  scale_x_log10("Patch separation scale (m)", breaks=10^(xmin:xmax),
+              labels = scales::trans_format("log10", scales::math_format(10^.x))) + 
+  scale_y_log10("Patch duration scale (s)", breaks=10^(ymin:ymax),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  geom_text_repel(aes(x=patch_length_scale, y=patch_duration, label=label)) +
+  annotation_logticks() +
+  theme_minimal() + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+dev.off()
+
+select(patchy, label, consumer_resource_pair, patch_length_scale, patch_duration) %>%
+  write.csv("data/patch_scales.csv")
+

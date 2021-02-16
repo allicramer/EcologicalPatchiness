@@ -1,0 +1,34 @@
+"","label","consumer_resource_pair","patch_length_scale","patch_duration"
+"1",1,"Vibrio - Nutrients",0.001,6000
+"2",2,"Pseudoalteromonas - Nutrients",0.04,900
+"3",3,"Bosmina - Diatoms",1000,518400
+"4",4,"Copepods - Phytoplankton layers",4000,604800
+"5",5,"Fruit flies - Marula fruit",146,7776000
+"6",6,"Caterpillar - Kale plants",1,12960000
+"7",7,"Caddisfly - Periphyton",0.19,10540800
+"8",8,"Bone worms - Whale falls",10000,4.7304e+10
+"9",9,"Green crabs - Cockles",200,6480000
+"10",10,"Desert locust - Vegetation",10,15552000
+"11",11,"Dung beetle - Dung",32,8709120
+"12",12,"Ctenophores - Copepods",4000,432000
+"13",13,"Beach mouse - Dune seeds",15,3153600000
+"14",14,"Chimney swifts - Aerial plankton",25000,3600
+"15",15,"Northern sea stars - Mussels",40,220752000
+"16",16,"Trout - Zooplankton",1000,10800
+"17",17,"Red knots - Cockles",10000,21600
+"18",18,"Red knots - Clams",1000,21600
+"19",19,"Terns - Forage fishes",5000,21600
+"20",20,"Pisaster sea star- Mussels",250,283824000
+"21",21,"Eastern gray squirrel - Acorn",8.3,7776000
+"22",22,"Murres - Zooplankton/fish",55000,28800
+"23",23,"Penguin - Fish school",250,50400
+"24",24,"Spider monkeys - Fruit trees",45.8,604800
+"25",25,"Beaver - Maple tree",50,70145524.8
+"26",26,"Mongolian gazelle - Vegetation",20000,2592000
+"27",27,"Wolf - Moose",53200,504576000
+"28",28,"Fur seals - Pollock",300,43200
+"29",29,"Elk - Forest patch",427,11195280000
+"30",30,"Tuna - Herring",33000,43200
+"31",31,"White sharks - Seals",70,300
+"32",32,"Killer whale - Chinook salmon",500,1200
+"33",33,"Blue whale - Krill",7000,21600
