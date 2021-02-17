@@ -71,7 +71,7 @@ p3 <- ggplot(patchy) +
   coord_equal() +
   theme_classic()
 p3
-ggsave("graphics/Str-Le.png", p3, w=4.5, h=4)
+ggsave("graphics/Str-Le.png", p3, w=3.25, h=3.25)
 
 
 
