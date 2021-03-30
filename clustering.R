@@ -16,7 +16,8 @@ patchy <- read.csv("data/PatchinessData_processed.csv", stringsAsFactors=F) %>%
   arrange(consumer_body_mass) %>%
   mutate(name = paste(str_pad(1:n(), 3, "right"), consumer_resource_pair))
 #classification variables
-class=read.csv("./data/Patchiness_classifications.csv")
+class=read.csv("./data/Patchiness_classifications.csv") %>%
+  arrange(consumer_body_mass)
 #see representation
 table(class$consumer_type2, class$patch_movement, class$ecosystem2)
 
@@ -64,7 +65,8 @@ ha <- HeatmapAnnotation(df=annot_df, col = annot_col, which="row",
 #generate heatmap
 # pdf("./graphics/heatmap.pdf", width = 6.25, height = 5.5)
 png("./graphics/heatmap_cuttree.png", width = 6.25, height = 5.5, units = "in", res=300)
-Heatmap(ratiom, name="log Ratio", col=col_fun, border = T, row_split = 7, 
+Heatmap(ratiom, name="log Ratio", col=col_fun, border = T, 
+        row_split = 5,
         cluster_columns = F, right_annotation = ha,
         row_title = "Consumer-resource pair",
         row_names_gp=gpar(fontsize = 9), column_names_gp=gpar(fontsize = 10),
@@ -72,12 +74,23 @@ Heatmap(ratiom, name="log Ratio", col=col_fun, border = T, row_split = 7,
         row_names_max_width = max_text_width(rownames(ratiom), gp = gpar(fontsize = 9)))
 dev.off()
 
+# Elbow plot to inform # of clusters
+ss <- rep(0, 10)
+for (i in 1:10) {
+  km <- cluster::pam(ratiom, i)
+  ss[i] <- km$objective[2]
+}
+plot(ss)
 
-#same heatmap, but cluster using k-means instead of cutree
-png("./graphics/heatmap_kmeans.png", width = 6.25, height = 5.5, units = "in", res=300)
-Heatmap(ratiom, name="log ratio", col=col_fun, border = T, row_km = 5,
+#same heatmap, but cluster using k-medioids instead of cutree
+pam = cluster::pam(ratiom, k=5)
+png("./graphics/heatmap_kmedioids.png", width = 7, height = 5.5, units = "in", res=300)
+Heatmap(ratiom, name="log ratio", col=col_fun, border = T,
+        row_split = pam$clustering,
+        row_title = c("Semi-\nnomadic", "Grazing", "Triple-\nMarginal", "Pursuit", "Piratical"),
+        row_title_gp=gpar(fontsize=8, lwd=0, fill="light grey"),
+        row_title_side="right",
         cluster_columns = F, right_annotation = ha,
-        row_title = "Consumer-resource pair (kmeans clusters)",
         row_names_gp=gpar(fontsize = 9), column_names_gp=gpar(fontsize = 10),
         row_dend_width = unit(2.5, "cm"),
         row_names_max_width = max_text_width(rownames(ratiom), gp = gpar(fontsize = 9)))

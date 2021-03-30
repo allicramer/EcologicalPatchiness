@@ -71,7 +71,7 @@ p3 <- ggplot(patchy) +
   coord_equal() +
   theme_classic()
 p3
-ggsave("graphics/Str-Le.png", p3, w=4.5, h=4)
+ggsave("graphics/Str-Le.png", p3, w=3.25, h=3.25)
 
 
 
@@ -156,10 +156,10 @@ decade = year*10
 century = year*100
 millenium = century * 10
 h = c(minute, hour, day, month, year, decade, century, millenium)
-hline_data = data.frame(x=1e-4, h=h, 
+hline_data = data.frame(x=0.5e-4, h=h, 
     label=c("Minute", "Hour", "Day", "Month", "Year", "Decade", "Century", "Millenium"))
 
-png("graphics/patch_scales.png", w=8, h=7, units="in", res=300)
+png("graphics/patch_scales.png", w=5.5, h=4.5, units="in", res=300)
 ggplot(patchy) +
   geom_hline(yintercept=h, linetype=3, color="dark grey") +
   geom_text(aes(x=x, y=h*1.5, label=label), data=hline_data, hjust="left",
@@ -169,11 +169,15 @@ ggplot(patchy) +
               labels = scales::trans_format("log10", scales::math_format(10^.x))) + 
   scale_y_log10("Patch duration scale (s)", breaks=10^(ymin:ymax),
                 labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-  geom_text_repel(aes(x=patch_length_scale, y=patch_duration, label=label)) +
-  annotation_logticks() +
-  theme_minimal() + theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+  geom_text_repel(aes(x=patch_length_scale, y=patch_duration, label=label), 
+                  min.segment.length = 0.3, alpha=0.5) +
+  annotation_logticks(alpha=0.5) +
+  theme_classic() + 
+  theme(panel.grid.minor=element_blank(), 
+        panel.grid.major=element_blank(),
+        axis.text=element_text(size=10))
 dev.off()
 
-select(patchy, label, consumer_resource_pair, patch_length_scale, patch_duration) %>%
+  select(patchy, label, consumer_resource_pair, patch_length_scale, patch_duration) %>%
   write.csv("data/patch_scales.csv")
 
