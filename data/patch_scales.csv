@@ -1,7 +1,7 @@
 "","label","consumer_resource_pair","patch_length_scale","patch_duration"
 "1",1,"Vibrio - Nutrients",0.001,6000
 "2",2,"Pseudoalteromonas - Nutrients",0.04,900
-"3",3,"Bosmina - Diatoms",1000,518400
+"3",3,"Bosmina - Diatoms",1000,86400
 "4",4,"Copepods - Phytoplankton layers",4000,604800
 "5",5,"Fruit flies - Marula fruit",146,7776000
 "6",6,"Caterpillar - Kale plants",1,12960000
@@ -25,7 +25,7 @@
 "24",24,"Spider monkeys - Fruit trees",45.8,604800
 "25",25,"Beaver - Maple tree",50,70145524.8
 "26",26,"Mongolian gazelle - Vegetation",20000,2592000
-"27",27,"Wolf - Moose",53200,504576000
+"27",27,"Wolf-Caribou",250000,1.5768e+10
 "28",28,"Fur seals - Pollock",300,43200
 "29",29,"Elk - Forest patch",427,11195280000
 "30",30,"Tuna - Herring",33000,43200

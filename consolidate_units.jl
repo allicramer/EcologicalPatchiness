@@ -12,9 +12,9 @@ module OrganismUnits
     # Units for specific organism types.  All are equal to one entity, but
     # the different types enforce apples/orages correctness.
     organisms = ["Acorn", "Bacteria", "Beaver", "Beetle", "Beetle", "Bird",
-        "Caddisfly", "Caterpillar", "Cell", "Cockle", "Copepod", "Cladoceran", "Crab",
+        "Caddisfly", "Caribou", "Caterpillar", "Cell", "Cockle", "Copepod", "Cladoceran", "Crab",
         "Ctenophore", "Elk", "Fish", "Fly", "Gazelle", "Insect", "Locust",
-        "Molecule", "Moose", "Mouse", "Mussel", "Nut", "Patch", "Plant", "Seal", "Seastar", "Seed",
+        "Molecule", "Mouse", "Mussel", "Nut", "Patch", "Plant", "Seal", "Seastar", "Seed",
         "Shark", "Squirrel", "Superpatch", "Tree", "Tuna", "Turd", "Whale",
         "Wolf", "Worm"]
     for org in organisms
