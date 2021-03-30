@@ -87,7 +87,7 @@ pam = cluster::pam(ratiom, k=5)
 png("./graphics/heatmap_kmedioids.png", width = 7, height = 5.5, units = "in", res=300)
 Heatmap(ratiom, name="log ratio", col=col_fun, border = T,
         row_split = pam$clustering,
-        row_title = c("Semi-\nnomadic", "Grazing", "Triple-\nMarginal", "Pursuit", "Piratical"),
+        row_title = c("Semi-\nnomadic", "Grazing", "Pursuit", "Triple-\nMarginal", "Piratical"),
         row_title_gp=gpar(fontsize=8, lwd=0, fill="light grey"),
         row_title_side="right",
         cluster_columns = F, right_annotation = ha,
