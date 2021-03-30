@@ -84,7 +84,7 @@ plot(ss)
 
 #same heatmap, but cluster using k-medioids instead of cutree
 pam = cluster::pam(ratiom, k=5)
-png("./graphics/heatmap_pam.png", width = 7, height = 5.5, units = "in", res=300)
+png("./graphics/heatmap_kmedioids.png", width = 7, height = 5.5, units = "in", res=300)
 Heatmap(ratiom, name="log ratio", col=col_fun, border = T,
         row_split = pam$clustering,
         row_title = c("Semi-\nnomadic", "Grazing", "Triple-\nMarginal", "Pursuit", "Piratical"),
