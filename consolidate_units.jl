@@ -14,8 +14,8 @@ module OrganismUnits
     organisms = ["Acorn", "Bacteria", "Beaver", "Beetle", "Beetle", "Bird",
         "Caddisfly", "Caribou", "Caterpillar", "Cell", "Cockle", "Copepod", "Cladoceran", "Crab",
         "Ctenophore", "Elk", "Fish", "Fly", "Gazelle", "Insect", "Locust",
-        "Molecule", "Mouse", "Mussel", "Nut", "Patch", "Plant", "Seal", "Seastar", "Seed",
-        "Shark", "Squirrel", "Superpatch", "Tree", "Tuna", "Turd", "Whale",
+        "Molecule", "Mouse", "Mussel", "Nut", "Patch", "Plant", "Seal", "Seastar", "School",
+        "Seed", "Shark", "Squirrel", "Superpatch", "Tree", "Tuna", "Turd", "Whale",
         "Wolf", "Worm"]
     for org in organisms
         abbr = lowercase(org)
