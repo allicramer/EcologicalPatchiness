@@ -83,12 +83,12 @@ for (i in 1:10) {
 plot(ss)
 
 #same heatmap, but cluster using k-medioids instead of cutree
-pam = cluster::pam(ratiom, k=6)
-png("./graphics/heatmap_kmedioids.png", width = 7, height = 5.5, units = "in", res=300)
+pam = cluster::pam(ratiom, k=5)
+png("./graphics/heatmap_kmedioids.png", width = 7, height = 6.5, units = "in", res=300)
 Heatmap(ratiom, name="log ratio", col=col_fun, border = T,
         row_split = pam$clustering,
-        # row_title = c("Grazing", "Semi-\nnomadic", "Pursuit", "Triple-\nMarginal", "Piratical"),
-        row_title_gp=gpar(fontsize=8, lwd=0, fill="light grey"),
+        row_title = c("Nomadic", "Semi-\nnomadic", "Pursuit", "Triple-\nMarginal", "Wind-\nfall"),
+        row_title_gp=gpar(fontsize=8, lwd=-0, fill="light grey"),
         row_title_side="right",
         cluster_columns = F, right_annotation = ha,
         row_names_gp=gpar(fontsize = 9), column_names_gp=gpar(fontsize = 10),
