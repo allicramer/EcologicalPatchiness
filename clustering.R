@@ -96,6 +96,76 @@ Heatmap(ratiom, name="log ratio", col=col_fun, border = T,
         row_names_max_width = max_text_width(rownames(ratiom), gp = gpar(fontsize = 9)))
 dev.off()
 
+cluster.labels <- data.frame(cluster.id=1:5, 
+   cluster.label = factor(c("Windfall", "Triple-marginal", "Nomadic", "Semi-nomadic", "Pursuit"),
+     levels=c("Nomadic", "Semi-nomadic", "Pursuit", "Triple-marginal", "Windfall")))
+patchy <- patchy %>%
+  mutate(label = 1:n(), 
+         cluster.id = pam$clustering) %>% 
+  left_join(cluster.labels)
+
+p1 <- ggplot(patchy) +
+  geom_vline(xintercept=1, size=0.25, alpha=0.5, linetype=3) + 
+  geom_hline(yintercept=1, size=0.25, alpha=0.5, linetype=3) +
+  geom_segment(aes(x=Fr_diff, y=Str, xend=Fr_dir, yend=Str), alpha=0.5, size=0.25) +
+  geom_point(aes(x=Fr_diff, y=Str, shape=cluster.label, fill=cluster.label, color=cluster.label),
+             alpha=0.3) + 
+  geom_point(aes(x=Fr_dir, y=Str, shape=cluster.label, fill=cluster.label, color=cluster.label)) + 
+  geom_text_repel(aes(x=Fr_dir, y=Str, label=label), alpha=0.7, box.padding=0.1,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2.2) +
+  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-8, 10^9),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) + 
+  scale_y_log10(breaks=Str_breaks, limits=c(10^-7, 10^5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_shape_manual("Cluster", values = 21:25, guide=F) +
+  scale_color_discrete("Cluster", guide=F) +
+  scale_fill_discrete("Cluster", guide=F) +
+  coord_equal() +
+  theme_classic()
+p1
+ggsave("graphics/Fr-Str_clustered.png", p1, h=4, w=4)
+
+
+p2 <- ggplot(patchy) +
+  geom_vline(xintercept=1, size=0.25, alpha=0.5, linetype=3) + 
+  geom_hline(yintercept=1, size=0.25, alpha=0.5, linetype=3) +
+  geom_segment(aes(x=Fr_diff, y=Le, xend=Fr_dir, yend=Le), alpha=0.3, size=0.25) +
+  geom_point(aes(x=Fr_diff, y=Le, shape=cluster.label, color=cluster.label, fill=cluster.label),
+             alpha=0.5) + 
+  geom_point(aes(x=Fr_dir, y=Le, shape=cluster.label, color=cluster.label, fill=cluster.label)) + 
+  geom_text_repel(aes(x=Fr_dir, y=Le, label=label), alpha=0.7, box.padding=0.1,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2.2) +
+  scale_x_log10("Fr", breaks=Fr_breaks, limits=c(10^-8, 10^9), 
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_y_log10(breaks=Le_breaks,
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_shape_manual("Cluster", values = 21:25, guide=F) +
+  scale_color_discrete("Cluster", guide=F) +
+  scale_fill_discrete("Cluster", guide=F) +
+  coord_equal() +
+  theme_classic()
+p2
+ggsave("graphics/Fr-Le_clustered.png", p2, h=4, w=4)
+
+p3 <- ggplot(patchy) +
+  geom_vline(xintercept=1, size=0.25, alpha=0.5, linetype=3) + 
+  geom_hline(yintercept=1, size=0.25, alpha=0.5, linetype=3) +
+  geom_point(aes(x=Str, y=Le, shape=cluster.label, color=cluster.label, fill=cluster.label)) + 
+  geom_text_repel(aes(x=Str, y=Le, label=label), alpha=0.7, box.padding=0.1,
+                  force=5, min.segment.length=0.2, segment.alpha=0.5, segment.size=0.25, size=2.2) +
+  scale_x_log10(breaks=Str_breaks, limits=c(10^-7, 10^5),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_y_log10(breaks=Le_breaks,
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  scale_shape_manual("Cluster", values = 21:25) +
+  scale_color_discrete("Cluster") +
+  scale_fill_discrete("Cluster") +
+  coord_equal() +
+  theme_classic()
+p3
+ggsave("graphics/Str-Le_clustered.png", p3, h=4, w=5)
+
+
 #basic dendrogram
 clust=hclust(dist(ratios))
 plot(clust)

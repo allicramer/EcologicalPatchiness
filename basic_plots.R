@@ -178,6 +178,6 @@ ggplot(patchy) +
         axis.text=element_text(size=10))
 dev.off()
 
-  select(patchy, label, consumer_resource_pair, patch_length_scale, patch_duration) %>%
+select(patchy, label, consumer_resource_pair, patch_length_scale, patch_duration) %>%
   write.csv("data/patch_scales.csv")
 
