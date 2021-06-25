@@ -99,9 +99,17 @@ abclines3d(x=0, y=0, z=0, a=1, b=0, c=0, alpha=0.8)
 abclines3d(x=0, y=0, z=0, a=0, b=0, c=1, alpha=0.8)
 snapshot3d("graphics/Fr-Str-Le-3D.png")
 
+
+
+
 summary(lm(log10(Str) ~ log10(Fr_dir), patchy))
 summary(lm(log10(Fr_dir) ~ log10(Le), patchy))
 summary(lm(log10(Le) ~ log10(Str), patchy))
+
+cor.test(log10(patchy$Str), log10(patchy$Fr_dir))
+cor.test(log10(patchy$Fr_dir), log10(patchy$Le))
+cor.test(log10(patchy$Le), log10(patchy$Str))
+
 
 
 ggplot(patchy) +
@@ -160,7 +168,7 @@ hline_data = data.frame(x=0.5e-4, h=h,
     label=c("Minute", "Hour", "Day", "Month", "Year", "Decade", "Century", "Millenium"))
 
 png("graphics/patch_scales.png", w=5.5, h=4.5, units="in", res=300)
-ggplot(patchy) +
+p_patch_scales <- ggplot(patchy) +
   geom_hline(yintercept=h, linetype=3, color="dark grey") +
   geom_text(aes(x=x, y=h*1.5, label=label), data=hline_data, hjust="left",
             color="dark grey") +
@@ -181,3 +189,28 @@ dev.off()
 select(patchy, label, consumer_resource_pair, patch_length_scale, patch_duration) %>%
   write.csv("data/patch_scales.csv")
 
+
+
+patch.items <- read.csv("data/patch_items.csv")
+patchy <- left_join(patchy, patch.items)
+
+png("graphics/body_sizes.png", w=5.5, h=4.5, units="in", res=300)
+p_body_sizes <- ggplot(filter(patchy, items_in_patch!="Continuous")) +
+  geom_point(aes(x=resource_body_size, y=consumer_body_size)) +
+  scale_x_log10("Resource body size (m)", breaks=10^(-4:3),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) + 
+  scale_y_log10("Consumer body size (m)", breaks=10^(-2:3),
+                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+  geom_text_repel(aes(x=resource_body_size, y=consumer_body_size, label=label), 
+                  min.segment.length = 0.3, alpha=0.5) +
+  annotation_logticks(alpha=0.5) +
+  theme_classic() + 
+  theme(panel.grid.minor=element_blank(), 
+        panel.grid.major=element_blank(),
+        axis.text=element_text(size=10))
+dev.off()
+
+png("graphics/Figure2.png", w=11, h=4.5, units="in", res=300)
+  gridExtra::grid.arrange(p_body_sizes + ggtitle("a)"), 
+                          p_patch_scales + ggtitle("b)"), nrow=1)
+dev.off()
