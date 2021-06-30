@@ -142,8 +142,9 @@ png("graphics/patch_access.png", w=6, h=6, units="in", res=300)
   x1 <- log10(patchy$patch_length_scale)
   y1 <- log10(patchy$patch_duration)
   slopes <- atan2(y1-y0, x1-x0)
-  colors <- rep("#00000077", length(x0))
-  colors[slopes < pi/4] <- "red"
+  colors <- rep("blue", length(x0))
+  colors[slopes < atan2(2, 1)] <- "red"
+  # colors[slopes < atan2(1, 1)] <- "red"
   segments(x0, y0, x1, y1, col=colors)
   points(x1, y1, pch=16)
   text(y1 ~ x1, labels=1:nrow(patchy), pos=3, offset=0.5, cex=0.6)
