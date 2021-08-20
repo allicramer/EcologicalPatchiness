@@ -62,23 +62,23 @@ end
 consolidated[!, :patch_duration] = uconvert.(u"s", consolidated[!, :patch_duration])
 
 consolidated = @transform(consolidated,
-    patch_length_scale = uconvert.(u"m", :patch_length_scale),
-    patch_duration = uconvert.(u"s", :patch_duration),
-    tsearch_diff = uconvert.(u"s", :patch_length_scale.^2 ./ (:speed.^2 .* :turning_interval)),
-    tsearch_dir = uconvert.(u"s", coalesce.(:tsearch, :patch_length_scale ./ :speed)),
-    treprod = uconvert.(u"s", :generation_time),
-    tconsumption = uconvert.(u"s",
+    :patch_length_scale = uconvert.(u"m", :patch_length_scale),
+    :patch_duration = uconvert.(u"s", :patch_duration),
+    :tsearch_diff = uconvert.(u"s", :patch_length_scale.^2 ./ (:speed.^2 .* :turning_interval)),
+    :tsearch_dir = uconvert.(u"s", coalesce.(:tsearch, :patch_length_scale ./ :speed)),
+    :treprod = uconvert.(u"s", :generation_time),
+    :tconsumption = uconvert.(u"s",
         coalesce.(:tconsumption, :resource_density ./ (:consumer_density .* :consumption_rate))),
-    consumer_body_mass = uconvert.(u"g", :consumer_body_mass),
-    cosumer_body_size = uconvert.(u"m", :consumer_body_size),
-    resource_body_mass = uconvert.(u"g", :resource_body_mass),
-    resource_body_size = uconvert.(u"m", :resource_body_size))
+    :consumer_body_mass = uconvert.(u"g", :consumer_body_mass),
+    :cosumer_body_size = uconvert.(u"m", :consumer_body_size),
+    :resource_body_mass = uconvert.(u"g", :resource_body_mass),
+    :resource_body_size = uconvert.(u"m", :resource_body_size))
 
 consolidated = @transform(consolidated,
-    Fr_diff = :patch_duration ./ :tsearch_diff,
-    Fr_dir = :patch_duration ./ :tsearch_dir,
-    Str = :patch_duration ./ :treprod,
-    Le = :patch_duration ./ :tconsumption)
+    :Fr_diff = :patch_duration ./ :tsearch_diff,
+    :Fr_dir = :patch_duration ./ :tsearch_dir,
+    :Str = :patch_duration ./ :treprod,
+    :Le = :patch_duration ./ :tconsumption)
 
 output = consolidated[!, meta_vars]
 for meas in [measurements; [:tsearch_diff, :tsearch_dir, :treprod]]
