@@ -80,7 +80,10 @@ for (i in 1:10) {
   km <- cluster::pam(ratiom, i)
   ss[i] <- km$objective[2]
 }
-plot(ss)
+
+png("./graphics/elbow.png")
+  plot(ss, xlab="Number of clusters", ylab="Sum of dissimilarities")
+dev.off()
 
 #same heatmap, but cluster using k-medioids instead of cutree
 pam = cluster::pam(ratiom, k=5)
