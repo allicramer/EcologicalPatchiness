@@ -70,7 +70,7 @@ consolidated = @transform(consolidated,
     :tconsumption = uconvert.(u"s",
         coalesce.(:tconsumption, :resource_density ./ (:consumer_density .* :consumption_rate))),
     :consumer_body_mass = uconvert.(u"g", :consumer_body_mass),
-    :cosumer_body_size = uconvert.(u"m", :consumer_body_size),
+    :consumer_body_size = uconvert.(u"m", :consumer_body_size),
     :resource_body_mass = uconvert.(u"g", :resource_body_mass),
     :resource_body_size = uconvert.(u"m", :resource_body_size))
 
