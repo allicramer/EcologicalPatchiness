@@ -185,6 +185,7 @@ p_patch_scales <- ggplot(patchy) +
   theme(panel.grid.minor=element_blank(), 
         panel.grid.major=element_blank(),
         axis.text=element_text(size=10))
+p_patch_scales
 dev.off()
 
 select(patchy, label, consumer_resource_pair, patch_length_scale, patch_duration) %>%
@@ -209,6 +210,7 @@ p_body_sizes <- ggplot(filter(patchy, items_in_patch!="Continuous")) +
   theme(panel.grid.minor=element_blank(), 
         panel.grid.major=element_blank(),
         axis.text=element_text(size=10))
+p_body_sizes
 dev.off()
 
 png("graphics/Figure2.png", w=11, h=4.5, units="in", res=300)
