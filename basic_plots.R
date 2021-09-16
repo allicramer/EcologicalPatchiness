@@ -147,12 +147,14 @@ png("graphics/patch_access.png", w=6, h=6, units="in", res=300)
   # colors[slopes < atan2(1, 1)] <- "red"
   segments(x0, y0, x1, y1, col=colors)
   points(x1, y1, pch=16)
-  text(y1 ~ x1, labels=1:nrow(patchy), pos=3, offset=0.5, cex=0.6)
+  text(y1 ~ x1, labels=patchy$label, pos=3, offset=0.5, cex=0.6)
   points(log10(turning_interval) ~ log10(turning_interval*speed), data=patchy)
   axis(1, at=xmin:xmax, labels=parse(text=paste0("10^", xmin:xmax)))
   axis(2, at=seq(ymin, ymax, by=2), labels=parse(text=paste0("10^", seq(ymin, ymax, by=2))))
   mtext("Length scale (m)", 1, 3)
   mtext("Time scale (s)", 2, 3)
+  legend("topleft", legend=c("Consumer step size", "Resource patch separation"),
+         pch=c(1, 16))
 dev.off()
 
 
