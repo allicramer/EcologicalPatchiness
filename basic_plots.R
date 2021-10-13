@@ -216,6 +216,6 @@ p_body_sizes
 dev.off()
 
 png("graphics/Figure2.png", w=11, h=4.5, units="in", res=300)
-  gridExtra::grid.arrange(p_body_sizes + ggtitle("a)"), 
-                          p_patch_scales + ggtitle("b)"), nrow=1)
+  gridExtra::grid.arrange(p_body_sizes + ggtitle("(a)"), 
+                          p_patch_scales + ggtitle("(b)"), nrow=1)
 dev.off()
