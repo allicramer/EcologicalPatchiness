@@ -1,7 +1,7 @@
 using Unitful
 using DataFrames, DataFramesMeta
 using CSV
-using Plots, StatsPlots
+# using Plots, StatsPlots
 
 
 module OrganismUnits
@@ -64,6 +64,8 @@ consolidated[!, :patch_duration] = uconvert.(u"s", consolidated[!, :patch_durati
 consolidated = @transform(consolidated,
     :patch_length_scale = uconvert.(u"m", :patch_length_scale),
     :patch_duration = uconvert.(u"s", :patch_duration),
+    :speed = uconvert.(u"m/s", :speed),
+    :turning_interval = uconvert.(u"s", :turning_interval),
     :tsearch_diff = uconvert.(u"s", :patch_length_scale.^2 ./ (:speed.^2 .* :turning_interval)),
     :tsearch_dir = uconvert.(u"s", coalesce.(:tsearch, :patch_length_scale ./ :speed)),
     :treprod = uconvert.(u"s", :generation_time),
