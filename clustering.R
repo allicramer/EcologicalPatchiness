@@ -167,6 +167,42 @@ p3 <- ggplot(patchy) +
 p3
 ggsave("graphics/Str-Le_clustered.png", p3, h=4, w=5)
 
+xmin <- -6
+xmax <- 6
+ymin <- -2
+ymax <- 12
+pal <- scales::hue_pal()(3)
+shape <- 21:25
+png("graphics/patch_access.png", w=7, h=6, units="in", res=300)
+  plot.new()
+  plot.window(xlim=c(xmin, xmax), ylim=c(ymin, ymax), xaxs="i", yaxs="i")
+  # Draw grid of sloped lines
+  for (a in seq(-12, 20, by=2)) {
+    abline(a, 1, col="#00000033")
+    abline(a, 2, col="#00000033", lty=2)
+  }
+  x0 <- with(patchy, log10(turning_interval*speed))
+  y0 <- log10(patchy$turning_interval)
+  x1 <- log10(patchy$patch_length_scale)
+  y1 <- log10(patchy$patch_duration)
+  slopes <- atan2(y1-y0, x1-x0)
+  colors <- rep(pal[1], length(x0))
+  colors[slopes > atan2(1, 1)] <- pal[2]
+  colors[slopes > atan2(2, 1)] <- pal[3]
+  shapes <- shape[patchy$cluster.id]
+  segments(x0, y0, x1, y1, col=colors)
+  points(x1, y1, pch=shapes, bg="black")
+  text(y1 ~ x1, labels=patchy$label, pos=3, offset=0.5, cex=0.6)
+  points(log10(turning_interval) ~ log10(turning_interval*speed), data=patchy, pch=shapes)
+  axis(1, at=xmin:xmax, labels=parse(text=paste0("10^", xmin:xmax)))
+  axis(2, at=seq(ymin, ymax, by=2), labels=parse(text=paste0("10^", seq(ymin, ymax, by=2))))
+  mtext("Length scale (m)", 1, 3)
+  mtext("Time scale (s)", 2, 3)
+  legend("topleft", legend=c("Windfall", "Triple-marginal", "Nomadic", "Semi-nomadic", "Pursuit",
+                             "Slope < 1", "1 < Slope < 2", "Slope > 2"),
+         pch=c(21:25, NA, NA, NA), lty=c(rep(NA, 5), 1, 1, 1), col=c(rep("black", 5), pal))
+dev.off()
+
 
 #basic dendrogram
 clust=hclust(dist(ratios))

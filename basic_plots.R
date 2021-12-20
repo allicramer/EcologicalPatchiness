@@ -125,39 +125,6 @@ ggplot(patchy) +
   theme_classic()
 
 
-xmin <- -6
-xmax <- 6
-ymin <- -4
-ymax <- 12
-png("graphics/patch_access.png", w=6, h=6, units="in", res=300)
-  plot.new()
-  plot.window(xlim=c(xmin, xmax), ylim=c(ymin, ymax), xaxs="i", yaxs="i")
-  # Draw grid of sloped lines
-  for (a in seq(-12, 20, by=2)) {
-    abline(a, 1, col="#00000033")
-    abline(a, 2, col="#00000033", lty=2)
-  }
-  x0 <- with(patchy, log10(turning_interval*speed))
-  y0 <- log10(patchy$turning_interval)
-  x1 <- log10(patchy$patch_length_scale)
-  y1 <- log10(patchy$patch_duration)
-  slopes <- atan2(y1-y0, x1-x0)
-  colors <- rep("blue", length(x0))
-  colors[slopes < atan2(2, 1)] <- "red"
-  # colors[slopes < atan2(1, 1)] <- "red"
-  segments(x0, y0, x1, y1, col=colors)
-  points(x1, y1, pch=16)
-  text(y1 ~ x1, labels=patchy$label, pos=3, offset=0.5, cex=0.6)
-  points(log10(turning_interval) ~ log10(turning_interval*speed), data=patchy)
-  axis(1, at=xmin:xmax, labels=parse(text=paste0("10^", xmin:xmax)))
-  axis(2, at=seq(ymin, ymax, by=2), labels=parse(text=paste0("10^", seq(ymin, ymax, by=2))))
-  mtext("Length scale (m)", 1, 3)
-  mtext("Time scale (s)", 2, 3)
-  legend("topleft", legend=c("Consumer step size", "Resource patch separation"),
-         pch=c(1, 16))
-dev.off()
-
-
 minute = 60
 hour = minute*60
 day = hour*24
