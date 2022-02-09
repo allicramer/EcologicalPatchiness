@@ -134,6 +134,10 @@ decade = year*10
 century = year*100
 millenium = century * 10
 h = c(minute, hour, day, month, year, decade, century, millenium)
+xmin <- -4
+xmax <- 6
+ymin <- 1
+ymax <- 11
 hline_data = data.frame(x=0.5e-4, h=h, 
     label=c("Minute", "Hour", "Day", "Month", "Year", "Decade", "Century", "Millenium"))
 
@@ -186,3 +190,4 @@ png("graphics/Figure2.png", w=11, h=4.5, units="in", res=300)
   gridExtra::grid.arrange(p_body_sizes + ggtitle("(a)"), 
                           p_patch_scales + ggtitle("(b)"), nrow=1)
 dev.off()
+
