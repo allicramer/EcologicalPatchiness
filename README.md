@@ -15,6 +15,7 @@ This repository contains all data and scripts required to reproduce the analyses
   * `PatchinessData_processed.csv`: Same data as above, with physical units transformed and homogenized.
   * `patch_scales.csv` : Table of spatial and temporal scales of all patches, in meters/seconds
   * `patch_items.csv` : Table recording whether each patch is composed of multiple food items (e.g. a school of fish), a single item (e.g. a dead whale), or a continuous resource (e.g. dissolved nutrients).
+  * `patchiness_classifications.csv` : Table of metadata on each interaction, including the type of consumer and the ecosystem in which it takes place.
 * `graphics/` : Output directory for plots. Not tracked in git.
   
 ## How to run the analyses
