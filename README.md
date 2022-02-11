@@ -5,7 +5,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6001151.svg)](https://doi.org/10.5281/zenodo.6001151)
 
 
-This repository contains all data and scripts required to reproduce the analyses and figures in Urmy et al. (2022), "When are bacteria really gazelles? Comparing patchy ecologies with dimensionless numbers," published in *Ecology Letters*.
+This repository contains all data and scripts required to reproduce the analyses and figures in Urmy et al. (2022), "When are bacteria really gazelles? Comparing patchy ecologies with dimensionless numbers," published in *Ecology Letters* (https://www.doi.org/10.1111/ele.13987)
 
 ## File and directory descriptions
 
