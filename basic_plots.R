@@ -11,13 +11,19 @@ patchy <- patchy %>%
   mutate(size.ratio = resource_body_size / consumer_body_size,
          mass.ratio = resource_body_mass / consumer_body_mass,
          label = 1:n(),
-         mean.field.sum = (Fr_dir < 1) + (Str < 1) + (Le < 1),
-         mean.field.ok = Fr_dir < 1 & Str < 1 & Le < 1)
+         mean.field.sum = (Fr_dir < 0.1) + (Str < 0.1) + (Le < 0.1),
+         all.ratio.gt.1 = (Fr_dir > 1) & (Str > 1) & (Le > 1),
+         any.ratio.gt.10 = (Fr_dir > 10) | (Str > 10) | (Le > 10),
+         any.ratio.lt.0.1 = (Fr_dir < 0.1) | (Str < 0.1) | (Le < 0.1))
 
 patchy %>%
   select(consumer_resource_pair, Fr_dir, Str, Le, mean.field.sum) %>%
   mutate(consumer_resource_pair = substr(consumer_resource_pair, 1, 30)) %>%
   arrange(desc(mean.field.sum))
+
+sum(patchy$all.ratio.gt.1)
+sum(patchy$any.ratio.gt.10)
+sum(patchy$any.ratio.lt.0.1)
 
 Fr_breaks = 10^seq(-8, 10, by=2)
 Str_breaks = 10^seq(-8, 4, by=2)
