@@ -25,6 +25,10 @@ sum(patchy$all.ratio.gt.1)
 sum(patchy$any.ratio.gt.10)
 sum(patchy$any.ratio.lt.0.1)
 
+classifications <- read.csv("data/Patchiness_classifications.csv")
+classifications %>% count(ecosystem2)
+classifications %>% count(consumer_type2)
+
 Fr_breaks = 10^seq(-8, 10, by=2)
 Str_breaks = 10^seq(-8, 4, by=2)
 Le_breaks = 10^seq(-8, 6, by=2)
